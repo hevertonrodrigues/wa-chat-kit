@@ -1,0 +1,74 @@
+{
+  "name": "wa-chat-kit",
+  "version": "0.1.0",
+  "description": "Reusable, customizable WhatsApp conversation UI for React — conversation list, thread with every Cloud API message type (text, media, audio player, documents, stickers, location, contacts, templates, interactive, reactions), reply/quote, voice notes, optimistic sends and realtime-ready adapter contract.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hevertonrodrigues/wa-chat-kit.git"
+  },
+  "keywords": [
+    "whatsapp",
+    "whatsapp-cloud-api",
+    "chat",
+    "inbox",
+    "react",
+    "conversation",
+    "messaging"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsup && cp src/styles.css dist/styles.css",
+    "dev": "vite demo",
+    "demo:build": "vite build demo",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test demo/src --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "bash scripts/verify.sh",
+    "prepare": "tsup && cp src/styles.css dist/styles.css"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "eslint": "^9.39.0",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "jsdom": "^27.4.0",
+    "prettier": "^3.6.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tsup": "^8.5.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.8",
+    "vitest": "^4.1.11"
+  }
+}
