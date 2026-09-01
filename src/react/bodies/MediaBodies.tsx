@@ -29,12 +29,14 @@ export function ImageBody({ message, labels, resolveMediaUrl }: BodyProps) {
         onClick={() => setExpanded(true)}
         aria-label={labels.previewImage}
       >
-        <img
-          className="wck-image"
-          src={media.url}
-          alt={message.text ?? labels.previewImage}
-          loading="lazy"
-        />
+        <span className="wck-media-frame">
+          <img
+            className="wck-image"
+            src={media.url}
+            alt={message.text ?? labels.previewImage}
+            loading="lazy"
+          />
+        </span>
       </button>
       {expanded && (
         <div
@@ -59,7 +61,11 @@ export function StickerBody({ message, labels, resolveMediaUrl }: BodyProps) {
 export function VideoBody({ message, labels, resolveMediaUrl }: BodyProps) {
   const media = useMediaUrl(message, resolveMediaUrl);
   if (media.state !== 'ready') return <MediaNote state={media.state} labels={labels} />;
-  return <video className="wck-video" src={media.url} controls preload="metadata" />;
+  return (
+    <span className="wck-media-frame">
+      <video className="wck-video" src={media.url} controls preload="metadata" />
+    </span>
+  );
 }
 
 export function DocumentBody({ message, labels, resolveMediaUrl }: BodyProps) {

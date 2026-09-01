@@ -107,6 +107,10 @@ export function MessageBubble(props: BubbleProps) {
     message.text &&
     (message.type === 'image' || message.type === 'video' || message.type === 'document');
   const bare = message.type === 'sticker';
+  // WhatsApp look: visual media sits edge-to-edge in a thin frame; without a
+  // caption the time/ticks overlay the media on a soft gradient.
+  const visualMedia = message.type === 'image' || message.type === 'video';
+  const mediaBare = visualMedia && !message.text;
 
   return (
     <div
@@ -117,6 +121,8 @@ export function MessageBubble(props: BubbleProps) {
         first ? 'wck-first' : '',
         last ? 'wck-last' : '',
         bare ? 'wck-bare' : '',
+        visualMedia ? 'wck-has-media' : '',
+        mediaBare ? 'wck-media-bare' : '',
         message.status === 'failed' ? 'wck-failed' : '',
       ]
         .filter(Boolean)

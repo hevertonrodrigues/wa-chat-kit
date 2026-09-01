@@ -84,7 +84,7 @@
   background: var(--wck-panel);
 }
 .wck-list-header {
-  padding: 12px 12px 8px;
+  padding: 16px 16px 12px;
   border-bottom: 1px solid var(--wck-border);
 }
 .wck-list-title {
@@ -121,7 +121,7 @@
   display: flex;
   gap: 12px;
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 16px;
   text-align: left;
   align-items: center;
 }
@@ -132,9 +132,9 @@
 .wck-avatar {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
   border-radius: 50%;
   background: var(--wck-panel-2);
   border: 1px solid var(--wck-border);
@@ -152,7 +152,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 .wck-row-top,
 .wck-row-bottom {
@@ -282,7 +282,7 @@
 .wck-scroller {
   flex: 1;
   overflow-y: auto;
-  padding: 14px 8%;
+  padding: 16px clamp(14px, 4vw, 56px) 20px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -337,7 +337,7 @@
   position: relative;
   max-width: min(72%, 560px);
   padding: 6px 9px 7px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--wck-bubble-in);
   color: var(--wck-bubble-text);
   box-shadow: 0 1px 0 rgb(0 0 0 / 12%);
@@ -515,6 +515,54 @@
   background: var(--wck-panel-2);
 }
 
+/* media bubble: WhatsApp-style thin frame around edge-to-edge media */
+.wck-has-media .wck-bubble {
+  padding: 4px;
+}
+.wck-has-media .wck-quote {
+  margin: 2px 2px 4px;
+}
+.wck-has-media .wck-author {
+  margin: 2px 6px 4px;
+}
+.wck-has-media .wck-text {
+  padding: 4px 6px 2px;
+}
+.wck-has-media .wck-meta {
+  margin: 4px 4px 1px 10px;
+}
+.wck-media-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  line-height: 0;
+}
+/* no caption: time/ticks float over the media on a soft gradient */
+.wck-media-bare .wck-bubble {
+  position: relative;
+}
+.wck-media-bare .wck-media-frame::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 34px;
+  background: linear-gradient(0deg, rgb(0 0 0 / 55%), transparent);
+  pointer-events: none;
+}
+.wck-media-bare .wck-meta {
+  position: absolute;
+  right: 10px;
+  bottom: 7px;
+  z-index: 1;
+  margin: 0;
+  float: none;
+  color: rgb(255 255 255 / 92%) !important;
+}
+.wck-media-bare .wck-ticks {
+  color: rgb(255 255 255 / 92%);
+}
+
 /* ── media bodies ──────────────────────────────────────────────────────── */
 .wck-media-note {
   margin: 0;
@@ -532,8 +580,10 @@
 .wck-image,
 .wck-video {
   display: block;
-  max-width: min(100%, 320px);
-  max-height: 320px;
+  width: 100%;
+  max-width: min(100%, 336px);
+  max-height: 360px;
+  object-fit: cover;
   border-radius: 8px;
 }
 .wck-sticker {
