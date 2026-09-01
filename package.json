@@ -1,6 +1,6 @@
 {
   "name": "wa-chat-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reusable, customizable WhatsApp conversation UI for React — conversation list, thread with every Cloud API message type (text, media, audio player, documents, stickers, location, contacts, templates, interactive, reactions), reply/quote, voice notes, optimistic sends and realtime-ready adapter contract.",
   "license": "MIT",
   "repository": {
