@@ -10,7 +10,7 @@ export {
   mergeIncomingMessage,
   type ChatController,
 } from './react/useChatController';
-export { ConversationList } from './react/ConversationList';
+export { ConversationList, ConversationRow } from './react/ConversationList';
 export { ConversationView } from './react/ConversationView';
 export { MessageBubble } from './react/MessageBubble';
 export { Composer } from './react/Composer';

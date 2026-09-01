@@ -60,7 +60,7 @@
 .wck-root *::after {
   box-sizing: border-box;
 }
-.wck-root button {
+:where(.wck-root) :where(button) {
   font: inherit;
   color: inherit;
   background: none;
@@ -122,12 +122,13 @@
   gap: 2px;
 }
 .wck-row {
-  display: flex;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
   width: 100%;
   padding: 10px 12px;
   text-align: left;
-  align-items: center;
   border-radius: 10px;
 }
 .wck-row:hover,
@@ -159,8 +160,8 @@
   flex-direction: column;
   gap: 3px;
 }
-.wck-row-top,
-.wck-row-bottom {
+.wck-row-head,
+.wck-row-sub {
   display: flex;
   justify-content: space-between;
   align-items: center;
