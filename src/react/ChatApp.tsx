@@ -17,6 +17,8 @@ export type ChatAppProps = {
   renderSessionClosedAction?: (conversation: Conversation) => ReactNode;
   /** Extra header content for the active conversation (e.g. profile link) */
   renderHeaderExtra?: (conversation: Conversation) => ReactNode;
+  /** Rendered in the list header, above the search input (e.g. "new chat"). */
+  listHeaderExtra?: ReactNode;
   onError?: (error: unknown) => void;
   className?: string;
 };
@@ -29,6 +31,7 @@ export function ChatApp({
   pageSize,
   renderSessionClosedAction,
   renderHeaderExtra,
+  listHeaderExtra,
   onError,
   className,
 }: ChatAppProps) {
@@ -48,6 +51,7 @@ export function ChatApp({
         query={chat.query}
         labels={labels}
         locale={locale}
+        headerExtra={listHeaderExtra}
         onQueryChange={chat.setQuery}
         onSelect={chat.selectConversation}
       />
@@ -71,6 +75,7 @@ export function ChatApp({
             }
           }}
           resolveMediaUrl={chat.resolveMediaUrl}
+          onRetry={adapter.retryMessage ? (message) => void chat.retry(message) : undefined}
           composerDisabledSlot={renderSessionClosedAction?.(active)}
           headerExtra={renderHeaderExtra?.(active)}
         />

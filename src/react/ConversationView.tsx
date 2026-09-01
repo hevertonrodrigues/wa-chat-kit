@@ -31,6 +31,7 @@ export function ConversationView({
   replyTo,
   onSetReply,
   onReact,
+  onRetry,
   resolveMediaUrl,
   composerDisabledSlot,
   headerExtra,
@@ -48,6 +49,7 @@ export function ConversationView({
   replyTo: ChatMessage | null;
   onSetReply: (message: ChatMessage | null) => void;
   onReact: (message: ChatMessage, emoji: string) => void;
+  onRetry?: (message: ChatMessage) => void;
   resolveMediaUrl: (message: ChatMessage) => Promise<string | null>;
   composerDisabledSlot?: ReactNode;
   headerExtra?: ReactNode;
@@ -194,6 +196,7 @@ export function ConversationView({
                 onQuoteClick={jumpToQuoted}
                 onReply={(message) => onSetReply(message)}
                 onReact={onReact}
+                onRetry={onRetry}
                 resolveMediaUrl={resolveMediaUrl}
               />
             ),

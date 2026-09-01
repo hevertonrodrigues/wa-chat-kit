@@ -317,6 +317,32 @@ export function useChatController(options: {
     [adapter, report],
   );
 
+  // Re-send a failed message through the adapter; optimistic flip back to
+  // 'sending', restored to 'failed' if the retry itself throws.
+  const retry = useCallback(
+    async (message: ChatMessage) => {
+      if (!adapter.retryMessage || message.status !== 'failed') return;
+      const patch = (updates: Partial<ChatMessage>) => {
+        const apply = (list: ChatMessage[]) =>
+          list.map((m) => (m.id === message.id ? { ...m, ...updates } : m));
+        setMessages(apply);
+        const cached = messagesCache.current.get(message.conversationId);
+        if (cached) cached.messages = apply(cached.messages);
+      };
+      patch({ status: 'sending', errorMessage: null });
+      try {
+        await adapter.retryMessage(message);
+      } catch (error) {
+        report(error);
+        patch({
+          status: 'failed',
+          errorMessage: error instanceof Error ? error.message : (message.errorMessage ?? null),
+        });
+      }
+    },
+    [adapter, report],
+  );
+
   const resolveMediaUrl = useCallback(
     async (message: ChatMessage): Promise<string | null> => {
       if (message.media?.url) return message.media.url;
@@ -354,6 +380,7 @@ export function useChatController(options: {
     loadingOlder,
     loadOlder,
     send,
+    retry,
     replyTo,
     setReplyTo,
     resolveMediaUrl,

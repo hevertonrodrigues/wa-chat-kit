@@ -151,6 +151,12 @@ export type ChatAdapter = {
   resolveMediaUrl: (message: ChatMessage) => Promise<string | null>;
   /** Live updates. Returns the unsubscribe function. */
   subscribe: (handlers: SubscribeHandlers) => () => void;
+  /**
+   * Re-send a failed OUTBOUND message. When provided, failed bubbles show a
+   * retry button; the backend should re-dispatch and stream the status change
+   * back through `subscribe` (same row or a replacement).
+   */
+  retryMessage?: (message: ChatMessage) => Promise<void>;
 };
 
 export function isMediaType(type: MessageType): boolean {

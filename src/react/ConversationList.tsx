@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Conversation } from '../core/types';
 import type { ChatLabels } from '../core/i18n';
 import { previewLabelFor } from '../core/i18n';
@@ -93,6 +94,7 @@ export function ConversationList({
   query,
   labels,
   locale,
+  headerExtra,
   onQueryChange,
   onSelect,
 }: {
@@ -102,13 +104,18 @@ export function ConversationList({
   query: string;
   labels: ChatLabels;
   locale: string;
+  /** Host content beside the title, above the search input (e.g. "new chat"). */
+  headerExtra?: ReactNode;
   onQueryChange: (query: string) => void;
   onSelect: (conversationId: string) => void;
 }) {
   return (
     <aside className="wck-list">
       <div className="wck-list-header">
-        <h2 className="wck-list-title">{labels.conversationsTitle}</h2>
+        <div className="wck-list-header-top">
+          <h2 className="wck-list-title">{labels.conversationsTitle}</h2>
+          {headerExtra && <div className="wck-list-header-extra">{headerExtra}</div>}
+        </div>
         <input
           type="search"
           className="wck-search"

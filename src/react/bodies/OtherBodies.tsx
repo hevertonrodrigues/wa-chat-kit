@@ -47,16 +47,36 @@ export function ContactsBody({ message, labels }: { message: ChatMessage; labels
   );
 }
 
+/**
+ * Templates render exactly as the customer received them: the filled text is
+ * the bubble; a subtle tag marks it as a template, with the template name
+ * behind a (?) hover affordance instead of taking bubble space.
+ */
 export function TemplateBody({ message, labels }: { message: ChatMessage; labels: ChatLabels }) {
+  const name = message.template?.name;
   return (
     <div className="wck-template">
-      <span className="wck-badge">{labels.templateBadge}</span>
-      {message.template?.name && <p className="wck-template-name">{message.template.name}</p>}
-      {message.text && (
+      {message.text ? (
         <p className="wck-text">
           <FormattedText text={message.text} />
         </p>
+      ) : (
+        name && <p className="wck-template-name">{name}</p>
       )}
+      <span className="wck-template-tag">
+        <span className="wck-badge">{labels.templateBadge}</span>
+        {name && (
+          <span
+            className="wck-template-info"
+            role="note"
+            tabIndex={0}
+            title={name}
+            aria-label={name}
+          >
+            ?
+          </span>
+        )}
+      </span>
     </div>
   );
 }

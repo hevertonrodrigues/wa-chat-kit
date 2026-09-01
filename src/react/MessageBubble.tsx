@@ -27,6 +27,7 @@ export type BubbleProps = {
   onQuoteClick: (externalId: string) => void;
   onReply?: (message: ChatMessage) => void;
   onReact?: (message: ChatMessage, emoji: string) => void;
+  onRetry?: (message: ChatMessage) => void;
   resolveMediaUrl: (message: ChatMessage) => Promise<string | null>;
 };
 
@@ -91,7 +92,7 @@ function Body(props: {
 }
 
 export function MessageBubble(props: BubbleProps) {
-  const { message, first, last, labels, locale, onReply, onReact } = props;
+  const { message, first, last, labels, locale, onReply, onReact, onRetry } = props;
   const [pickerOpen, setPickerOpen] = useState(false);
   const outbound = message.direction === 'out';
 
@@ -143,6 +144,16 @@ export function MessageBubble(props: BubbleProps) {
         <span className="wck-meta">
           <time dateTime={message.timestamp}>{formatClock(message.timestamp, locale)}</time>
           {outbound && <StatusTicks status={message.status} labels={labels} />}
+          {outbound && message.status === 'failed' && onRetry && (
+            <button
+              type="button"
+              className="wck-retry"
+              onClick={() => onRetry(message)}
+              aria-label={labels.retry}
+            >
+              ↻ {labels.retry}
+            </button>
+          )}
         </span>
         {message.status === 'failed' && message.errorMessage && (
           <p className="wck-error">{message.errorMessage}</p>
