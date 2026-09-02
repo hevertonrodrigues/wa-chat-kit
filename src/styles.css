@@ -216,12 +216,26 @@
   font-weight: 700;
 }
 .wck-account-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 1px 6px;
   border-radius: 999px;
   border: 1px solid var(--wck-border);
   color: var(--wck-muted);
   font-size: 11px;
   white-space: nowrap;
+}
+/* Host-coloured number: the dot carries the colour, the hairline picks up a tint. */
+.wck-account-badge-colored {
+  border-color: color-mix(in oklab, var(--wck-account-color) 45%, var(--wck-border));
+}
+.wck-account-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--wck-account-color);
 }
 
 /* ── thread ────────────────────────────────────────────────────────────── */

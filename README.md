@@ -17,7 +17,7 @@ Run `npm run dev` for a full demo against the bundled mock adapter (all message 
 
 ## What's included
 
-- **Conversation list** — search, unread badges (`99+` cap), last-message preview with type glyphs (📷 🎤 📄…), outbound tick mark, relative timestamps (HH:mm / weekday / date), multi-account badge.
+- **Conversation list** — search, unread badges (`99+` cap), last-message preview with type glyphs (📷 🎤 📄…), outbound tick mark, relative timestamps (HH:mm / weekday / date), multi-account badge (`accountLabel`, with an optional `accountColor` dot so each number reads as a group).
 - **Thread view** — day separators (Hoje/Ontem), consecutive-message grouping, cursor pagination with **scroll-anchored prepend** (loading history never jumps), sticky-to-bottom with a "new messages" chip, 24h-session pill.
 - **Every message type**: text (with WhatsApp `*bold*` `_italic_` `~strike~` ` ``` `mono` ``` ` formatting and URL autolinking — token-rendered, no `dangerouslySetInnerHTML`), image (lightbox), video, **audio player** (seek, elapsed/total duration swap, decode-error → download fallback), document (name/size/download), sticker (transparent bubble), location (maps link), contacts, template, interactive (rendered buttons/list + tapped answer), button (template quick replies), system, unsupported/unknown fallbacks.
 - **Replies** — click-to-reply, composer reply banner, quoted block in the bubble, click the quote to scroll + pulse-highlight the original.

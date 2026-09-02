@@ -57,6 +57,7 @@ export function createMockAdapter(options: MockAdapterOptions = {}): ChatAdapter
       lastMessageAt: minutesAgo(4),
       sessionExpiresAt: new Date(Date.now() + 20 * 3_600_000).toISOString(),
       accountLabel: 'Loja Centro',
+      accountColor: '#5fa9f0',
     },
     {
       id: 'conv-joao',

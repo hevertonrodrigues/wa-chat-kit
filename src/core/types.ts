@@ -99,6 +99,11 @@ export type Conversation = {
   sessionExpiresAt?: string | null;
   /** Shown as a small badge when the inbox aggregates several numbers */
   accountLabel?: string | null;
+  /**
+   * Colour that identifies that number — any CSS colour, a `var(--token)`
+   * included. Rendered as a dot on the account badge (list row + thread header).
+   */
+  accountColor?: string | null;
 };
 
 export type SendMessageInput =

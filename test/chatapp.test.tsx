@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChatApp } from '../src/react/ChatApp';
 import { createMockAdapter } from '../src/mock/mockAdapter';
@@ -30,6 +30,20 @@ describe('ChatApp', () => {
     await waitFor(() =>
       expect(screen.getAllByRole('img', { name: 'Enviada' }).length).toBeGreaterThan(0),
     );
+  });
+
+  it('colours the account badge when the host assigns accountColor', async () => {
+    // Earlier renders stay mounted (no global cleanup) — scope to this one.
+    const { container, unmount } = render(
+      <ChatApp adapter={createMockAdapter({ latencyMs: 5 })} locale="pt-BR" />,
+    );
+    await within(container).findByRole('button', { name: /Maria Souza/ });
+    const badge = container.querySelector('.wck-account-badge-colored') as HTMLElement | null;
+    expect(badge).not.toBeNull();
+    expect(badge).toHaveTextContent('Loja Centro');
+    expect(badge?.style.getPropertyValue('--wck-account-color')).toBe('#5fa9f0');
+    expect(badge?.querySelector('.wck-account-dot')).not.toBeNull();
+    unmount();
   });
 
   it('shows the closed-window composer for expired sessions', async () => {

@@ -4,6 +4,7 @@ import type { ChatLabels } from '../core/i18n';
 import { previewLabelFor } from '../core/i18n';
 import { formatListTime } from '../core/time';
 import { stripWhatsAppFormatting } from '../core/format';
+import { AccountBadge } from './AccountBadge';
 
 function initials(title: string): string {
   const parts = title.trim().split(/\s+/).slice(0, 2);
@@ -72,9 +73,7 @@ export function ConversationRow({
             {preview}
           </span>
           <span className="wck-row-badges">
-            {conversation.accountLabel && (
-              <span className="wck-account-badge">{conversation.accountLabel}</span>
-            )}
+            <AccountBadge conversation={conversation} />
             {unread && (
               <span className="wck-unread-badge">
                 {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}

@@ -13,6 +13,7 @@ import { buildThreadItems } from '../core/grouping';
 import { formatDayLabel } from '../core/time';
 import { MessageBubble } from './MessageBubble';
 import { Composer } from './Composer';
+import { AccountBadge } from './AccountBadge';
 
 const TOP_LOAD_THRESHOLD_PX = 80;
 const NEAR_BOTTOM_PX = 120;
@@ -149,9 +150,7 @@ export function ConversationView({
           <h2 className="wck-thread-title">{conversation.title}</h2>
           <p className="wck-thread-sub">
             +{conversation.phone}
-            {conversation.accountLabel && (
-              <span className="wck-account-badge">{conversation.accountLabel}</span>
-            )}
+            <AccountBadge conversation={conversation} />
           </p>
         </div>
         <div className="wck-thread-header-right">
