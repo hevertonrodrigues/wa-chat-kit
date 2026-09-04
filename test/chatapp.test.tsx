@@ -32,6 +32,30 @@ describe('ChatApp', () => {
     );
   });
 
+  it('opens a conversation the host deep-linked, and reports every change', async () => {
+    const user = userEvent.setup();
+    const seen: (string | null)[] = [];
+    const { container, unmount } = render(
+      <ChatApp
+        adapter={createMockAdapter({ latencyMs: 5, echo: false })}
+        locale="pt-BR"
+        initialConversationId="conv-joao"
+        onConversationChange={(id) => seen.push(id)}
+      />,
+    );
+    // The thread opens on its own once the list knows the id.
+    await within(container).findByRole('heading', { name: 'João Pereira' });
+    await waitFor(() => expect(seen).toContain('conv-joao'));
+
+    // Going back must stick — a deep link is applied once, not re-applied.
+    await user.click(within(container).getByRole('button', { name: '←' }));
+    await waitFor(() => expect(seen[seen.length - 1]).toBeNull());
+    expect(
+      within(container).queryByRole('heading', { name: 'João Pereira' }),
+    ).not.toBeInTheDocument();
+    unmount();
+  });
+
   it('colours the account badge when the host assigns accountColor', async () => {
     // Earlier renders stay mounted (no global cleanup) — scope to this one.
     const { container, unmount } = render(

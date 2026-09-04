@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import type { ChatAdapter, ChatMessage, Conversation } from '../core/types';
 import { resolveLabels, type ChatLabels } from '../core/i18n';
 import { useChatController } from './useChatController';
@@ -19,6 +19,15 @@ export type ChatAppProps = {
   renderHeaderExtra?: (conversation: Conversation) => ReactNode;
   /** Rendered in the list header, above the search input (e.g. "new chat"). */
   listHeaderExtra?: ReactNode;
+  /**
+   * Open this conversation once the list has loaded — for hosts that deep-link
+   * into a thread (a URL, a search result, a record in another screen).
+   * Applied once per id: the user is free to navigate away afterwards, and
+   * changing the prop opens the new one.
+   */
+  initialConversationId?: string | null;
+  /** Called whenever the active conversation changes, including on back. */
+  onConversationChange?: (conversationId: string | null) => void;
   onError?: (error: unknown) => void;
   className?: string;
 };
@@ -32,6 +41,8 @@ export function ChatApp({
   renderSessionClosedAction,
   renderHeaderExtra,
   listHeaderExtra,
+  initialConversationId,
+  onConversationChange,
   onError,
   className,
 }: ChatAppProps) {
@@ -39,6 +50,24 @@ export function ChatApp({
   const chat = useChatController({ adapter, pageSize, onError });
 
   const active = chat.activeConversation;
+  const { selectConversation, activeId, conversations } = chat;
+
+  // Deep link: open it as soon as the list knows about it, then never again for
+  // that id — otherwise pressing back would re-open it on the next render.
+  const openedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!initialConversationId || openedRef.current === initialConversationId) return;
+    if (!conversations.some((conversation) => conversation.id === initialConversationId)) return;
+    openedRef.current = initialConversationId;
+    selectConversation(initialConversationId);
+  }, [initialConversationId, conversations, selectConversation]);
+
+  const notifiedRef = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (notifiedRef.current === activeId) return;
+    notifiedRef.current = activeId;
+    onConversationChange?.(activeId);
+  }, [activeId, onConversationChange]);
 
   return (
     <div

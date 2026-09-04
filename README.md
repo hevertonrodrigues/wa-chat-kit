@@ -45,6 +45,27 @@ const adapter: ChatAdapter = {
 
 `ChatMessage` / `Conversation` are normalized, provider-agnostic shapes (see `src/core/types.ts`). `externalId` is the provider message id (WhatsApp `wamid`) — replies and reactions reference it.
 
+## Host hooks
+
+`ChatApp` stays generic; these props let the host wire it into its own screens
+without forking the shell.
+
+| Prop                                      | What it does                                                                                                                                   |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `renderHeaderExtra(conversation)`         | Extra content in the thread header (a profile link, a status chip)                                                                             |
+| `renderSessionClosedAction(conversation)` | Rendered in the composer area when the 24h window has closed                                                                                   |
+| `listHeaderExtra`                         | Rendered above the search input (a "new chat" button, filters)                                                                                 |
+| `initialConversationId`                   | Opens that thread once the list has loaded — for deep links from a URL or another screen. Applied **once per id**, so pressing back stays back |
+| `onConversationChange(id)`                | Fires whenever the active conversation changes, including on back. Lets the host keep the URL in sync                                          |
+
+```tsx
+<ChatApp
+  adapter={myAdapter}
+  initialConversationId={searchParams.get('conversation')}
+  onConversationChange={(id) => router.replace(id ? `?conversation=${id}` : '?')}
+/>
+```
+
 ## Composability
 
 `ChatApp` is the batteries-included shell. Every layer is exported for custom layouts:
